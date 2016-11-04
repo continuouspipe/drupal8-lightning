@@ -8,7 +8,8 @@ MAINTAINER "Kieren Evans <kevans@inviqa.com>"
 COPY . /app
 WORKDIR /app
 
-RUN cp /app/tools/docker/config/settings.php /app/docroot/sites/default/
+RUN mkdir -p /app/docroot/sites/default/ \
+ && cp /app/tools/docker/config/settings.php /app/docroot/sites/default/
 
 # Install dependencies
 ARG GITHUB_TOKEN=
