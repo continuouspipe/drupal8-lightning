@@ -1,0 +1,16 @@
+web:
+  build: .
+  volumes:
+    - .:/app
+  links:
+    - database
+  environment:
+    GITHUB_TOKEN:
+
+database:
+    image: mysql:5.6
+    environment:
+      MYSQL_ROOT_PASSWORD: drupal
+      MYSQL_DATABASE: drupaldb
+      MYSQL_USER: drupal
+      MYSQL_PASSWORD: drupal
