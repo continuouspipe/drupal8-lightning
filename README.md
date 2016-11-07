@@ -1,16 +1,33 @@
 This is a Composer-based installer for the [Lightning](https://www.drupal.org/project/lightning) Drupal distribution. Welcome to the future!
 
+We are running this in Docker too!
+
 ## Get Started
 You will need the following installed:
 
-* [Composer](https://getcomposer.org), obviously
-* [Node](https://nodejs.org), which includes the NPM package manager
+* [Dock-Cli](https://github.com/inviqa/dock-cli)
+* [Docker-Machine-NFS](https://github.com/adlogix/docker-machine-nfs)
+
+You will also need a [Github OAuth](https://github.com/settings/tokens) token to hand. If you've set one up before, check `~/.composer/auth.json`.
 
 When you have those, run this command:
+```bash
+# If you don't have docker yet!
+dock-cli docker:install
+# Speedy mountpoints for sharing your code.
+docker-machine-nfs dinghy
+
+# Start up the project
+dock-cli start
+
+# Run the development installer
+GITHUB_TOKEN="<your github token>" dock-cli run web /bin/bash /usr/local/share/drupal8/development/install.sh
+
+# Or run the production installer
+GITHUB_TOKEN="<your github token>" dock-cli run web /bin/bash /usr/local/share/drupal8/install.sh
 ```
-$ composer create-project acquia/lightning-project:^8.1.0 MY_PROJECT --no-interaction
-```
-Composer will create a new directory called MY_PROJECT containing a ```docroot``` directory with a full Lightning code base therein. You can then install it like you would any other Drupal site.
+
+You can access your site by checking what the DNS address is listed as in `dock-cli ps`.
 
 ## Maintenance
 ```drush make```, ```drush pm-download```, ```drush pm-update``` and their ilk are the old-school way of maintaining your code base. Forget them. You're in Composer land now!
