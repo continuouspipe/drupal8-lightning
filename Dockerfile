@@ -9,6 +9,8 @@ WORKDIR /app
 RUN mkdir -p /app/docroot/sites/default/ \
  && cp /app/tools/docker/config/settings.php /app/docroot/sites/default/
 
+COPY ./tools/docker/usr/ /usr
+
 # Install dependencies
 ARG GITHUB_TOKEN=
 RUN if [ -n "$GITHUB_TOKEN" ]; then \
