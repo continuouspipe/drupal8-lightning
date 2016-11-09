@@ -1,18 +1,24 @@
-web:
-  build: .
-  volumes:
-    - .:/app
-  links:
-    - database
-  environment:
-    GITHUB_TOKEN:
+version: '2'
 
-varnish:
-  image: quay.io/inviqa_images/drupal8-varnish:4.0
-  links:
-    - web
+services:
+  web:
+    build:
+      context: .
+      args:
+        - GITHUB_TOKEN
+    volumes:
+      - .:/app
+    links:
+      - database
+    environment:
+      - GITHUB_TOKEN
 
-database:
+  varnish:
+    image: quay.io/inviqa_images/drupal8-varnish:4.0
+    links:
+      - web
+
+  database:
     image: mysql:5.6
     environment:
       MYSQL_ROOT_PASSWORD: drupal
