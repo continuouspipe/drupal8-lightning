@@ -16,3 +16,5 @@ ARG GITHUB_TOKEN=
 RUN if [ -n "$GITHUB_TOKEN" ]; then \
         sh /usr/local/share/drupal8/install.sh; \
     fi
+
+CMD ["/app/tools/docker/start.sh"]

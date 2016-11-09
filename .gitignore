@@ -10,3 +10,6 @@
 
 # Ignore Composer-managed dependencies.
 vendor/
+auth.json
+docroot
+composer.lock
