@@ -9,6 +9,7 @@ services:
     volumes:
       - .:/app
     links:
+      - solr
       - database
     environment:
       - GITHUB_TOKEN
@@ -17,6 +18,9 @@ services:
     image: quay.io/inviqa_images/drupal8-varnish:4.0
     links:
       - web
+
+  solr:
+    image: quay.io/inviqa_images/drupal8-solr:6.2
 
   database:
     image: mysql:5.6
