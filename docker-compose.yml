@@ -4,6 +4,7 @@ web:
     - .:/app
   links:
     - database
+    - solr
   environment:
     GITHUB_TOKEN:
 
