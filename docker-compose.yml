@@ -7,6 +7,11 @@ web:
   environment:
     GITHUB_TOKEN:
 
+varnish:
+  image: quay.io/inviqa_images/drupal8-varnish:4.0
+  links:
+    - web
+
 database:
     image: mysql:5.6
     environment:
