@@ -4,8 +4,12 @@ web:
     - .:/app
   links:
     - database
+    - solr
   environment:
     GITHUB_TOKEN:
+
+solr:
+  image: quay.io/inviqa_images/drupal8-solr:6.2
 
 varnish:
   image: quay.io/inviqa_images/drupal8-varnish:4.0
