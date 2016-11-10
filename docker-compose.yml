@@ -22,7 +22,7 @@ services:
     image: quay.io/inviqa_images/drupal8-solr:6.2
 
   database:
-    image: mysql:5.6
+    image: quay.io/inviqa_images/mysql:5.6
     environment:
       MYSQL_ROOT_PASSWORD: drupal
       MYSQL_DATABASE: drupaldb
