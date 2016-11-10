@@ -14,7 +14,8 @@ COPY ./tools/docker/usr/ /usr
 # Install dependencies
 ARG GITHUB_TOKEN=
 RUN if [ -n "$GITHUB_TOKEN" ]; then \
-        bash /usr/local/share/drupal8/install.sh; \
+      composer install --no-interaction --optimize-autoloader \
+      && composer clear-cache; \
     fi
 
 CMD ["/app/tools/docker/start.sh"]
