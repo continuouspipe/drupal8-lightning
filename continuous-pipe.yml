@@ -101,7 +101,7 @@ tasks:
                               storage_class: default
                         volume_mounts:
                             - name: solr-volume
-                              mount_path: /opt/solr
+                              mount_path: /opt/solr/server/solr/d8
 
                         ports:
                             - 8983
