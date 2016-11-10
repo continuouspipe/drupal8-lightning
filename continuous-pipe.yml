@@ -103,6 +103,9 @@ tasks:
                             - name: solr-volume
                               mount_path: /opt/solr
 
+                        ports:
+                            - 8983
+
                         resources:
                             requests:
                                 cpu: 50m
