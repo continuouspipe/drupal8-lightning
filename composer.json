@@ -14,21 +14,53 @@
         "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
         "mikey179/vfsStream": "~1.2",
         "phpunit/phpunit": "~4.8",
-        "symfony/css-selector": "2.7.*"
+        "symfony/css-selector": "2.7.*",
+        "drupal/config_update": "^1.2",
+        "drupal/features": "^3.0",
+        "drupal/devel": "^1.0",
+        "drupal/search_kint": "^1.0",
+        "drupal/adminimal_theme": "^1.0",
+        "drupal/adminimal_admin_toolbar": "^1.0",
+        "drupal/admin_toolbar_tools": "^1.0",
+        "drupal/module_filter": "^3.0",
+        "drupal/masquerade": "^1.0",
+        "drupal/stage_file_proxy": "^1.0"
     },
     "require": {
         "composer/installers": "^1.0",
         "drupal-composer/drupal-scaffold": "^2.0.0",
         "cweagans/composer-patches": "1.5.0",
         "drupal/lightning": "^8.1.0",
-        "drupal/console": "~1.0"
+        "drupal/console": "~1.0",
+        "drupal/metatag": "^1.0",
+        "drupal/content_browser": "^1.0",
+        "drupal/google_analytics": "^2.0",
+        "drupal/search_api": "^1.0",
+        "drupal/search_api_solr": "^1.0",
+        "drupal/facets":"^1.0"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.drupal-composer.org"
+    "repositories": {
+      "drupal-packagist": {
+          "type": "composer",
+          "url": "https://packagist.drupal-composer.org"
+        },
+        "drupal": {
+          "type": "composer",
+          "url": "https://packages.drupal.org/8"
+        },
+        "masonry": {
+          "type": "package",
+          "package": {
+            "name": "desandro/masonry",
+            "version": "3.3.1",
+            "type": "drupal-library",
+            "dist": {
+              "url": "https://github.com/desandro/masonry/archive/v3.3.1.zip",
+              "type": "zip"
+            }
+          }
         }
-    ],
+    },
     "scripts": {
       "post-install-cmd": [
         "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
@@ -63,6 +95,9 @@
             ],
             "drush/contrib/{$name}": [
                 "type:drupal-drush"
+            ],
+            "docroot/libraries/{$name}": [
+              "type:drupal-library"
             ]
         },
         "enable-patching": true
