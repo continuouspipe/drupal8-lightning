@@ -19,7 +19,7 @@ services:
       - web
 
   solr:
-    image: quay.io/inviqa_images/drupal8-solr:6.2
+    image: quay.io/inviqa_images/drupal8-solr:4.10
 
   database:
     image: quay.io/inviqa_images/mysql:5.6
