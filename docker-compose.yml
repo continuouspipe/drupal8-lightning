@@ -20,6 +20,8 @@ services:
 
   solr:
     image: quay.io/inviqa_images/drupal8-solr:4.10
+    volumes:
+      - solr_data:/usr/local/share/solr/d8/data/
 
   database:
     image: quay.io/inviqa_images/mysql:5.6
@@ -28,3 +30,11 @@ services:
       MYSQL_DATABASE: drupaldb
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
+
+volumes:
+  solr_data:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m,uid=1000
