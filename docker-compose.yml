@@ -19,7 +19,7 @@ services:
       - web
 
   solr:
-    image: quay.io/inviqa_images/drupal8-solr:4.10
+    image: quay.io/inviqa_images/drupal8-solr:4.10_v1
     volumes:
       - solr_data:/usr/local/share/solr/d8/data/
 
