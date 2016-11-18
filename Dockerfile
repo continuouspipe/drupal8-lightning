@@ -1,6 +1,6 @@
 FROM quay.io/inviqa_images/drupal8-apache:7.0
 
-MAINTAINER "Kieren Evans <kevans@inviqa.com>"
+MAINTAINER "Kieren Evans <kieren.evans+drupal8-docker@inviqa.com>"
 
 USER build
 
@@ -10,8 +10,8 @@ WORKDIR /app
 
 USER root
 
-RUN mkdir -p /app/docroot/sites/default/ \
- && cp /app/tools/docker/config/settings.php /app/docroot/sites/default/ \
+RUN mkdir -p /app/docroot/sites/default/files/ \
+ && cp /app/tools/docker/config/* /app/docroot/sites/default/ \
  && chown -R build:build /app \
  && cp -R /app/tools/docker/usr/ /usr
 
