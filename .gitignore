@@ -13,3 +13,6 @@ vendor/
 auth.json
 docroot
 composer.lock
+
+# Ignore remote ContinuousPipe config
+.cp-remote-env-settings
