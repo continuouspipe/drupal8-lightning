@@ -1,25 +1,40 @@
-web:
-  build: .
-  volumes:
-    - .:/app
-  links:
-    - database
-    - solr
-  environment:
-    GITHUB_TOKEN:
+version: '2'
+services:
+  web:
+    build:
+      context: .
+      args:
+        - GITHUB_TOKEN
+    volumes:
+      - .:/app
+    links:
+      - solr
+      - database
+    environment:
+      - GITHUB_TOKEN
 
-solr:
-  image: quay.io/inviqa_images/drupal8-solr:6.2
+  varnish:
+    image: quay.io/inviqa_images/drupal8-varnish:4.0
+    links:
+      - web
 
-varnish:
-  image: quay.io/inviqa_images/drupal8-varnish:4.0
-  links:
-    - web
+  solr:
+    image: quay.io/inviqa_images/drupal8-solr:4.10_v1
+    volumes:
+      - solr_data:/usr/local/share/solr/d8/data/
 
-database:
-    image: mysql:5.6
+  database:
+    image: quay.io/inviqa_images/mysql:5.6
     environment:
       MYSQL_ROOT_PASSWORD: drupal
       MYSQL_DATABASE: drupaldb
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
+
+volumes:
+  solr_data:
+    driver: local
+    driver_opts:
+      type: tmpfs
+      device: tmpfs
+      o: size=100m,uid=1000

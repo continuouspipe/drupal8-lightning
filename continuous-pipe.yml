@@ -1,0 +1,120 @@
+tasks:
+    images:
+        build:
+            environment:
+                - name: GITHUB_TOKEN
+                  value: ${GITHUB_TOKEN}
+
+            services:
+                web:
+                    image: docker.io/sroze/drupal8-lightning
+
+    deployment:
+        deploy:
+            cluster: ${CLUSTER}
+
+            services:
+                database:
+                    specification:
+                        volumes:
+                            - type: persistent
+                              name: database-volume
+                              capacity: 5Gi
+                              storage_class: default
+
+                        volume_mounts:
+                            - name: database-volume
+                              mount_path: /var/lib/mysql
+
+                        command:
+                            - /usr/local/bin/docker-entrypoint.sh
+                            - mysqld
+                            - --ignore-db-dir=lost+found
+                            - --max_allowed_packet=128M
+
+                        ports:
+                            - 3306
+
+                        resources:
+                            requests:
+                                cpu: 50m
+                                memory: 250Mi
+
+                            limits:
+                                cpu: 500m
+                                memory: 2Gi
+
+                    deployment_strategy:
+                        readiness_probe:
+                            type: tcp
+                            port: 3306
+
+                varnish:
+                    endpoints:
+                        -
+                            name: http
+
+                    specification:
+                        ports:
+                            - 80
+
+                        resources:
+                            limits:
+                                cpu: 50m
+                                memory: 500Mi
+
+                    deployment_strategy:
+                        readiness_probe:
+                            type: tcp
+                            port: 80
+
+                web:
+                    specification:
+                        environment_variables:
+                            - name: GITHUB_TOKEN
+                              value: ${GITHUB_TOKEN}
+
+                        ports:
+                            - 80
+
+                        resources:
+                            requests:
+                                cpu: 50m
+                                memory: 500Mi
+
+                            limits:
+                                cpu: 1
+                                memory: 2G
+
+
+                    deployment_strategy:
+                        readiness_probe:
+                            type: tcp
+                            port: 80
+
+                solr:
+                    specification:
+                        volumes:
+                            - type: persistent
+                              name: solr-volume
+                              capacity: 5Gi
+                              storage_class: default
+                        volume_mounts:
+                            - name: solr-volume
+                              mount_path: /usr/local/share/solr/d8/data/
+
+                        ports:
+                            - 8983
+
+                        resources:
+                            requests:
+                                cpu: 50m
+                                memory: 250Mi
+                            limits:
+                                cpu: 500m
+                                memory: 500Mi
+
+                    deployment_strategy:
+                        readiness_probe:
+                            type: tcp
+                            port: 8983

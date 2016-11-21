@@ -1,9 +1,8 @@
-This is a Composer-based installer for the [Lightning](https://www.drupal.org/project/lightning) Drupal distribution. Welcome to the future!
+This is a Composer-based installer for the [Lightning Drupal distribution](https://github.com/acquia/lightning-project). Because we are living the future, there is also the [Docker](Dockerfile) and [ContinuousPipe](https://continuouspipe.io) configurations.
 
 We are running this in Docker too!
 
 ## Get Started
-You will need the following installed:
 
 * [Dock-Cli](https://github.com/inviqa/dock-cli)
 * [Docker-Machine-NFS](https://github.com/adlogix/docker-machine-nfs)
@@ -54,4 +53,3 @@ But to be clear: **you still need Drush**. Tasks such as database updates (```dr
 If you peek at the ```.gitignore``` we provide, you'll see that certain directories, including all directories containing contributed projects, are excluded from source control. This might be a bit disconcerting if you're newly arrived from Planet Drush, but in a Composer-based project like this one, **you SHOULD NOT commit your installed dependencies to source control**.
 
 When you set up the project, Composer will create a file called ```composer.lock```, which is a list of which dependencies were installed, and in which versions. **Commit ```composer.lock``` to source control!** Then, when your colleagues want to spin up their own copies of the project, all they'll have to do is run ```composer install```, which will install the correct versions of everything in ```composer.lock```.
-
