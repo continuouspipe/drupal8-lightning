@@ -14,7 +14,7 @@ services:
       - GITHUB_TOKEN
 
   varnish:
-    image: quay.io/inviqa_images/drupal8-varnish:4.0
+    image: quay.io/inviqa_images/drupal8-varnish:4.0_v1
     links:
       - web
 
