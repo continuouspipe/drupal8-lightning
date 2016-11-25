@@ -12,7 +12,8 @@ tasks:
     deployment:
         deploy:
             cluster: ${CLUSTER}
-
+            environment:
+                name: '"drupal-" ~ code_reference.branch'
             services:
                 database:
                     specification:
