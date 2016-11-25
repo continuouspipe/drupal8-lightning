@@ -19,9 +19,6 @@ modules:
   - search_kint
   - features
   - features_ui
-  - lightning_extender
-  - development_developer_configurations
-  - api_integration_content_mining
 
 # A system path to redirect to once installation is complete.
 redirect:
