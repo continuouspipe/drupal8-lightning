@@ -73,6 +73,8 @@ tasks:
                         environment_variables:
                             - name: GITHUB_TOKEN
                               value: ${GITHUB_TOKEN}
+                            - name: APP_USER_LOCAL
+                              value: false
 
                         ports:
                             - 80
