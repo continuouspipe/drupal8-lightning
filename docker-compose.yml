@@ -12,6 +12,7 @@ services:
       - database
     environment:
       - GITHUB_TOKEN
+      - APP_USER_LOCAL=true
 
   varnish:
     image: quay.io/continuouspipe/drupal8-varnish:4.0_v1
