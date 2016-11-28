@@ -16,4 +16,7 @@ RUN mkdir -p /app/docroot/sites/default/files/ \
 
 # Install dependencies
 ARG GITHUB_TOKEN=
+ARG CODE_OWNER=build
+ARG CODE_GROUP=build
+ARG APP_GROUP=www-data
 RUN bash /usr/local/share/drupal8/install.sh

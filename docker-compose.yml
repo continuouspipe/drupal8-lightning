@@ -5,6 +5,9 @@ services:
       context: .
       args:
         - GITHUB_TOKEN
+        - CODE_OWNER=build
+        - CODE_GROUP=build
+        - APP_GROUP=www-data
     volumes:
       - .:/app
     links:
