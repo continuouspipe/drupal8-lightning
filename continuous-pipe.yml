@@ -75,6 +75,22 @@ tasks:
                               value: ${GITHUB_TOKEN}
                             - name: APP_USER_LOCAL
                               value: false
+                            - name: DRUPAL_HASH_SALT
+                              value: ${DRUPAL_HASH_SALT}
+                            - name: DRUPAL_DATABASE_NAME
+                              value: ${DRUPAL_DATABASE_NAME}
+                            - name: DRUPAL_DATABASE_USERNAME
+                              value: ${DRUPAL_DATABASE_USERNAME}
+                            - name: DRUPAL_DATABASE_PASSWORD
+                              value: ${DRUPAL_DATABASE_PASSWORD}
+                            - name: DRUPAL_DATABASE_PREFIX
+                              value: ${DRUPAL_DATABASE_PREFIX}
+                            - name: DRUPAL_DATABASE_HOST
+                              value: ${DRUPAL_DATABASE_HOST}
+                            - name: DRUPAL_DATABASE_PORT
+                              value: ${DRUPAL_DATABASE_PORT}
+                            - name: DRUPAL_CONFIG_DIRECTORY_SECRET
+                              value: ${DRUPAL_CONFIG_DIRECTORY_SECRET}
 
                         ports:
                             - 80
