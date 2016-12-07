@@ -41,7 +41,8 @@
         "drupal/search_api_solr": "^8.1.0",
         "drupal/search_api_page": "^8.1.0",
         "drupal/yamlform": "^8.1.0",
-        "drupal/commerce": "^8.2.0"
+        "drupal/commerce": "^8.2.0",
+        "drupal/address": "~1.0"
     },
     "repositories": {
       "drupal": {
