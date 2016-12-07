@@ -51,7 +51,6 @@
         "drupal/profile": "~8.1.0",
         "drupal/state_machine": "~8.1.0",
         "commerceguys/intl": "~0.7",
-        "ext-bcmath": "*",
         "commerceguys/zone": "~0.7",
         "commerceguys/tax": "~0.7"
     },
