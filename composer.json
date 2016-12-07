@@ -14,21 +14,44 @@
         "jcalderonzumba/mink-phantomjs-driver": "~0.3.1",
         "mikey179/vfsStream": "~1.2",
         "phpunit/phpunit": "~4.8",
-        "symfony/css-selector": "2.7.*"
+        "symfony/css-selector": "2.7.*",
+        "cebe/markdown": "^1.0.0",
+        "drupal/config_update": "^8.1.2",
+        "drupal/features": "^8.3.0",
+        "drupal/devel": "^8.1.0",
+        "drupal/search_kint": "^8.1.0",
+        "drupal/adminimal_admin_toolbar": "^8.1.0",
+        "drupal/admin_toolbar_tools": "^8.1.0",
+        "drupal/module_filter": "^8.3.0",
+        "drupal/masquerade": "^8.1.0",
+        "drupal/stage_file_proxy": "^8.1.0",
+        "drupal/default_content": "8.1.0-alpha3"
     },
     "require": {
         "composer/installers": "^1.0",
         "drupal-composer/drupal-scaffold": "^2.0.0",
         "cweagans/composer-patches": "1.5.0",
-        "drupal/lightning": "^8.1.0",
-        "drupal/console": "~1.0"
+        "drupal/lightning": "^8.1.12",
+        "drupal/console": "~1.0",
+        "drupal/adminimal_theme": "^8.1.2",
+        "drupal/admin_toolbar": "^8.1.17",
+        "drupal/google_analytics": "^8.2.1",
+        "drupal/simple_sitemap": "^8.2.6",
+        "drupal/search_api": "^8.1.0",
+        "drupal/search_api_solr": "^8.1.0",
+        "drupal/search_api_page": "^8.1.0",
+        "drupal/yamlform": "^8.1.0",
+        "drupal/commerce": "^8.2.0",
+        "drupal/address": "^8.1.0",
+        "drupal/profile": "^8.1.0",
+        "drupal/state_machine": "^8.1.0"
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://packagist.drupal-composer.org"
-        }
-    ],
+    "repositories": {
+      "drupal": {
+        "type": "composer",
+        "url": "https://packagist.drupal-composer.org"
+      }
+    },
     "scripts": {
       "post-install-cmd": [
         "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",

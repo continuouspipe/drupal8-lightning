@@ -763,4 +763,6 @@ $databases['default']['default'] = array (
   'driver' => 'mysql',
 );
 $settings['install_profile'] = 'lightning';
-$config_directories['sync'] = 'sites/default/files/config_dCWMOH-zgC6AJOPYEZBt1wWMKwXhzgCdNM-JmwavI_hNLZ-c4CRalqTYzP3zki12YXKFOY2tZw/sync';
+$config_directories['sync'] = '../config';
+
+
