@@ -44,15 +44,7 @@
         "drupal/commerce": "^8.2.0",
         "drupal/address": "^8.1.0",
         "drupal/profile": "^8.1.0",
-        "drupal/state_machine": "^8.1.0",
-        "drupal/entity": "^8.1.0",
-        "drupal/entity_reference_revisions": "~8.1.0",
-        "drupal/inline_entity_form": "~8.1.0",
-        "drupal/profile": "~8.1.0",
-        "drupal/state_machine": "~8.1.0",
-        "commerceguys/intl": "~0.7",
-        "commerceguys/zone": "~0.7",
-        "commerceguys/tax": "~0.7"
+        "drupal/state_machine": "^8.1.0"
     },
     "repositories": {
       "drupal": {
