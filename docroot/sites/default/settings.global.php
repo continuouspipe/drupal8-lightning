@@ -1,5 +1,4 @@
 <?php
-
 /**
  * @file
  * Drupal site-specific configuration file.
@@ -285,7 +284,7 @@ $config_directories = array();
  *   $settings['hash_salt'] = file_get_contents('/home/example/salt.txt');
  * @endcode
  */
-$settings['hash_salt'] = 'ua8xqJ4jexh4Z2FIqrwwX3loycmsmlqDpjaFi73Apx9jtlPya_UT3hpfQo66-iCwGNllhNDwoA';
+# $settings['hash_salt'] = '';
 
 /**
  * Deployment identifier.
@@ -752,15 +751,4 @@ $settings['file_scan_ignore_directories'] = [
 # if (file_exists(__DIR__ . '/settings.local.php')) {
 #   include __DIR__ . '/settings.local.php';
 # }
-$databases['default']['default'] = array (
-  'database' => 'drupaldb',
-  'username' => 'drupal',
-  'password' => 'drupal',
-  'prefix' => '',
-  'host' => 'database',
-  'port' => '3306',
-  'namespace' => 'Drupal\\Core\\Database\\Driver\\mysql',
-  'driver' => 'mysql',
-);
 $settings['install_profile'] = 'lightning';
-$config_directories['sync'] = 'sites/default/files/config_dCWMOH-zgC6AJOPYEZBt1wWMKwXhzgCdNM-JmwavI_hNLZ-c4CRalqTYzP3zki12YXKFOY2tZw/sync';

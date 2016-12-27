@@ -16,14 +16,14 @@ dock-cli docker:install
 # Speedy mountpoints for sharing your code.
 docker-machine-nfs dinghy
 
-# Start up the project
-dock-cli start
-
 # Run the development installer
-GITHUB_TOKEN="<your github token>" dock-cli run /bin/bash /usr/local/share/drupal8/development/install.sh
+DRUPAL_CONFIG_DIRECTORY_SECRET="<LongRandomString>" DRUPAL_HASH_SALT="<LongRandomString>" GITHUB_TOKEN="<your github token>" docker-compose run --rm web /bin/bash /usr/local/share/drupal8/development/install.sh
 
 # Or run the production installer
-GITHUB_TOKEN="<your github token>" dock-cli run /bin/bash /usr/local/share/drupal8/install.sh
+DRUPAL_CONFIG_DIRECTORY_SECRET="<LongRandomString>" DRUPAL_HASH_SALT="<LongRandomString>" GITHUB_TOKEN="<your github token>" docker-compose run --rm web /bin/bash /usr/local/share/drupal8/install.sh
+
+# Start up the project
+dock-cli start
 ```
 
 You can access your site by checking what the DNS address is listed as in `dock-cli ps`.

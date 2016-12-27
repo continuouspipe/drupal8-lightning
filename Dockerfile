@@ -1,4 +1,4 @@
-FROM quay.io/inviqa_images/drupal8-apache:7.0
+FROM quay.io/continuouspipe/drupal8-apache:7.0_v1
 
 MAINTAINER "Kieren Evans <kieren.evans+drupal8-docker@inviqa.com>"
 
@@ -11,17 +11,12 @@ WORKDIR /app
 USER root
 
 RUN mkdir -p /app/docroot/sites/default/files/ \
- && cp /app/tools/docker/config/* /app/docroot/sites/default/ \
  && chown -R build:build /app \
- && cp -R /app/tools/docker/usr/ /usr
-
-USER build
+ && cp -R /app/tools/docker/usr/* /usr
 
 # Install dependencies
 ARG GITHUB_TOKEN=
-RUN if [ -n "$GITHUB_TOKEN" ]; then \
-      composer install --no-interaction --optimize-autoloader \
-      && composer clear-cache; \
-    fi
-
-USER root
+ARG CODE_OWNER=build
+ARG CODE_GROUP=build
+ARG APP_GROUP=www-data
+RUN bash /usr/local/share/drupal8/install.sh
