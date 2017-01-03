@@ -7,7 +7,7 @@ tasks:
 
             services:
                 web:
-                    image: quay.io/inviqa_images/drupal8-apache
+                    image: quay.io/inviqa_images/drupal8-thunder
 
     deployment:
         deploy:
