@@ -22,3 +22,4 @@ fi
 
 # Drupal should have been installed by now.
 
+mkdir -p sites/default/files
