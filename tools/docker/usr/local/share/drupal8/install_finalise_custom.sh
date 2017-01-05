@@ -23,3 +23,5 @@ fi
 # Drupal should have been installed by now.
 
 mkdir -p sites/default/files
+chown -R www-data sites/default/files
+chgrp -R www-data sites/default/files
