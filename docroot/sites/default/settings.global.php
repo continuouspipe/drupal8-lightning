@@ -751,4 +751,5 @@ $settings['file_scan_ignore_directories'] = [
 # if (file_exists(__DIR__ . '/settings.local.php')) {
 #   include __DIR__ . '/settings.local.php';
 # }
-$settings['install_profile'] = 'lightning';
+$settings['install_profile'] = 'thunder';
+$settings['hash_salt'] = 'ua8xqJ4jexh4Z2TIqrwwX3loycmsmlADpjaFi73Apx9jtlPya_UT3hpfQo66-iCwGNllhNDwoA';
