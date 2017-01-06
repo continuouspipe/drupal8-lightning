@@ -1,4 +1,4 @@
-FROM quay.io/continuouspipe/drupal8-apache:7.0_v1
+FROM quay.io/continuouspipe/drupal7-apache-php5.6
 
 MAINTAINER "Kieren Evans <kieren.evans+drupal8-docker@inviqa.com>"
 
