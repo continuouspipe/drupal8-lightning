@@ -27,20 +27,20 @@
     "prefer-stable": true,
     "extra": {
         "installer-paths": {
-            "web/": ["type:drupal-core"],
-            "web/sites/all/modules/contrib/{$name}/": ["type:drupal-module"],
-            "web/sites/all/themes/contrib/{$name}/": ["type:drupal-theme"],
-            "web/sites/all/libraries/{$name}/": ["type:drupal-library"],
-            "web/sites/all/drush/{$name}/": ["type:drupal-drush"],
-            "web/profiles/{$name}/": ["type:drupal-profile"]
+            "docroot/": ["type:drupal-core"],
+            "docroot/sites/all/modules/contrib/{$name}/": ["type:drupal-module"],
+            "docroot/sites/all/themes/contrib/{$name}/": ["type:drupal-theme"],
+            "docroot/sites/all/libraries/{$name}/": ["type:drupal-library"],
+            "docroot/sites/all/drush/{$name}/": ["type:drupal-drush"],
+            "docroot/profiles/{$name}/": ["type:drupal-profile"]
         },
         "preserve-paths": [
-            "web/sites/all/modules/contrib",
-            "web/sites/all/themes/contrib",
-            "web/sites/all/libraries",
-            "web/sites/all/drush",
-            "web/sites/default/settings.php",
-            "web/sites/default/files"
+            "docroot/sites/all/modules/contrib",
+            "docroot/sites/all/themes/contrib",
+            "docroot/sites/all/libraries",
+            "docroot/sites/all/drush",
+            "docroot/sites/default/settings.php",
+            "docroot/sites/default/files"
         ]
     }
 }
