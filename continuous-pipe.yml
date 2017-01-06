@@ -7,11 +7,13 @@ tasks:
 
             services:
                 web:
-                    image: docker.io/sroze/drupal8-lightning
+                    image: quay.io/inviqa_images/drupal7
 
     deployment:
         deploy:
             cluster: ${CLUSTER}
+            environment:
+                name: '"drupal7-" ~ code_reference.branch'
 
             services:
                 database:

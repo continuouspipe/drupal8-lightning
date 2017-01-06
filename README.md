@@ -1,55 +1,52 @@
-This is a Composer-based installer for the [Lightning Drupal distribution](https://github.com/acquia/lightning-project). Because we are living the future, there is also the [Docker](Dockerfile) and [ContinuousPipe](https://continuouspipe.io) configurations.
+# Composer template for Drupal projects
 
-We are running this in Docker too!
+[![Build Status](https://travis-ci.org/drupal-composer/drupal-project.svg?branch=7.x)](https://travis-ci.org/drupal-composer/drupal-project)
 
-## Get Started
+This project template should provide a kickstart for managing your site 
+dependencies with [Composer](https://getcomposer.org/).
 
-* [Dock-Cli](https://github.com/inviqa/dock-cli)
-* [Docker-Machine-NFS](https://github.com/adlogix/docker-machine-nfs)
+If you want to know, how to use it as replacement for
+[Drush Make](https://github.com/drush-ops/drush/blob/master/docs/make.md) visit
+the [Documentation on drupal.org](https://www.drupal.org/node/2471553).
 
-You will also need a [Github OAuth](https://github.com/settings/tokens) token to hand. If you've set one up before, check `~/.composer/auth.json`.
+## Usage
 
-When you have those, run this command:
-```bash
-# If you don't have docker yet!
-dock-cli docker:install
-# Speedy mountpoints for sharing your code.
-docker-machine-nfs dinghy
+First you need to [install composer](https://getcomposer.org/doc/00-intro.md#installation-linux-unix-osx).
 
-# Run the development installer
-DRUPAL_CONFIG_DIRECTORY_SECRET="<LongRandomString>" DRUPAL_HASH_SALT="<LongRandomString>" GITHUB_TOKEN="<your github token>" docker-compose run --rm web /bin/bash /usr/local/share/drupal8/development/install.sh
+> Note: The instructions below refer to the [global composer installation](https://getcomposer.org/doc/00-intro.md#globally).
+You might need to replace `composer` with `php composer.phar` (or similar) for your setup.
 
-# Or run the production installer
-DRUPAL_CONFIG_DIRECTORY_SECRET="<LongRandomString>" DRUPAL_HASH_SALT="<LongRandomString>" GITHUB_TOKEN="<your github token>" docker-compose run --rm web /bin/bash /usr/local/share/drupal8/install.sh
+After that you can create the project:
 
-# Start up the project
-dock-cli start
+```
+composer create-project drupal-composer/drupal-project:7.x-dev some-dir --stability dev --no-interaction
 ```
 
-You can access your site by checking what the DNS address is listed as in `dock-cli ps`.
+With `composer require ...` you can download new dependencies to your installation.
 
-## Maintenance
-```drush make```, ```drush pm-download```, ```drush pm-update``` and their ilk are the old-school way of maintaining your code base. Forget them. You're in Composer land now!
+```
+cd some-dir
+composer require drupal/ctools:7.*
+```
 
-Let this handy table be your guide:
+## What does the template do?
 
-| Task                                            | Drush                                         | Composer                                          |
-|-------------------------------------------------|-----------------------------------------------|---------------------------------------------------|
-| Installing a contrib project (latest version)   | ```drush pm-download PROJECT```               | ```composer require drupal/PROJECT:8.*```         |
-| Installing a contrib project (specific version) | ```drush pm-download PROJECT-8.x-1.0-beta3``` | ```composer require drupal/PROJECT:8.1.0-beta3``` |
-| Updating all contrib projects and Drupal core   | ```drush pm-update```                         | ```composer update```                             |
-| Updating a single contrib project               | ```drush pm-update PROJECT```                 | ```composer update drupal/PROJECT```              |
-| Updating Drupal core                            | ```drush pm-update drupal```                  | ```composer update drupal/core```                 |
+When installing the given `composer.json` some tasks are taken care of:
 
-Not too tricky, eh?
+* Drupal will be installed in the `web`-directory.
+* Modules (packages of type `drupal-module`) will be placed in `web/sites/all/modules/contrib/`
+* Theme (packages of type `drupal-module`) will be placed in `web/sites/all/themes/contrib/`
+* Profiles (packages of type `drupal-profile`) will be placed in `web/profiles/`
 
-The magic is that Composer, unlike Drush, is a *dependency manager*. If module ```foo-8.x-1.0``` depends on ```baz-8.x-3.2```, Composer will not let you update baz to ```8.x-3.3``` (or downgrade it to ```8.x-3.1```, for that matter). Drush has no concept of dependency management. If you've ever accidentally hosed a site because of dependency issues like this, you've probably already realized how valuable Composer can be.
+## Generate composer.json from existing project
 
-But to be clear: **you still need Drush**. Tasks such as database updates (```drush updatedb```) are still firmly in Drush's province, and it's awesome at that stuff. This installer will install a copy of Drush (local to the project) in the ```bin``` directory.
+With using [the "Composer Generate" drush extension](https://www.drupal.org/project/composer_generate)
+you can now generate a basic `composer.json` file from an existing project. Note
+that the generated `composer.json` might differ from this project's file.
 
-**Composer is only responsible for maintaining the code base**.
 
-## Source Control
-If you peek at the ```.gitignore``` we provide, you'll see that certain directories, including all directories containing contributed projects, are excluded from source control. This might be a bit disconcerting if you're newly arrived from Planet Drush, but in a Composer-based project like this one, **you SHOULD NOT commit your installed dependencies to source control**.
+## FAQ
 
-When you set up the project, Composer will create a file called ```composer.lock```, which is a list of which dependencies were installed, and in which versions. **Commit ```composer.lock``` to source control!** Then, when your colleagues want to spin up their own copies of the project, all they'll have to do is run ```composer install```, which will install the correct versions of everything in ```composer.lock```.
+### Should I commit the contrib modules I download
+
+Composer recommends **no**. They provide [argumentation against but also workrounds if a project decides to do it anyway](https://getcomposer.org/doc/faqs/should-i-commit-the-dependencies-in-my-vendor-directory.md).
