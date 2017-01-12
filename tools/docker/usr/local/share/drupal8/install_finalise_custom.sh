@@ -16,12 +16,10 @@ done;
 # Check if Drupal is installed and act accordingly.
 if ! drush status bootstrap | grep -q Successful ; then
     # Drupal is not installed.
+    mkdir -p sites/default/files
+    chown -R www-data sites/default/files
+    chgrp -R www-data sites/default/files
     drush si thunder -y
     drush cache-rebuild
 fi
 
-# Drupal should have been installed by now.
-
-mkdir -p sites/default/files
-chown -R www-data sites/default/files
-chgrp -R www-data sites/default/files
