@@ -16,27 +16,27 @@ services:
     environment:
       - GITHUB_TOKEN
       - APP_USER_LOCAL=true
-      - DRUPAL_HASH_SALT
-      - DRUPAL_DATABASE_NAME
-      - DRUPAL_DATABASE_USERNAME
-      - DRUPAL_DATABASE_PASSWORD
-      - DRUPAL_DATABASE_PREFIX
-      - DRUPAL_DATABASE_HOST
-      - DRUPAL_DATABASE_PORT
-      - DRUPAL_CONFIG_DIRECTORY_SECRET
+      - DRUPAL_HASH_SALT=sosecret
+      - DRUPAL_DATABASE_NAME=drupaldb
+      - DRUPAL_DATABASE_USERNAME=drupal
+      - DRUPAL_DATABASE_PASSWORD=drupal
+      - DRUPAL_DATABASE_PREFIX=
+      - DRUPAL_DATABASE_HOST=database
+      - DRUPAL_DATABASE_PORT=3306
+      - DRUPAL_CONFIG_DIRECTORY_SECRET=sosecret
 
   varnish:
-    image: quay.io/continuouspipe/drupal8-varnish:4.0_v1
+    image: quay.io/continuouspipe/varnish4:v1.0
     links:
       - web
 
   solr:
-    image: quay.io/continuouspipe/drupal8-solr:4.10_v1
+    image: quay.io/continuouspipe/drupal8-solr4:v1.0
     volumes:
       - solr_data:/usr/local/share/solr/d8/data/
 
   database:
-    image: quay.io/continuouspipe/mysql:5.6_v1
+    image: quay.io/continuouspipe/mysql5.6:v1.0
     environment:
       MYSQL_ROOT_PASSWORD: drupal
       MYSQL_DATABASE: drupaldb
