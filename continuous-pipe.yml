@@ -7,7 +7,7 @@ tasks:
 
             services:
                 web:
-                    image: docker.io/sroze/drupal8-lightning
+                    image: quay.io/inviqa_images/drupal8-thunder
 
     deployment:
         deploy:
