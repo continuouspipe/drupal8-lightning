@@ -9,10 +9,19 @@
 /docroot/sites/default/files
 
 # Ignore Composer-managed dependencies.
-vendor/
-auth.json
-docroot
-composer.lock
+/vendor/
+/auth.json
+/docroot/*
+/composer.lock
+
+# Don't ignore site settings
+!/docroot/sites/
+/docroot/sites/*
+!/docroot/sites/*/
+/docroot/sites/*/*
+!/docroot/sites/*/settings.env.php
+!/docroot/sites/*/settings.global.php
+!/docroot/sites/*/settings.php
 
 # Ignore remote ContinuousPipe config
 .cp-remote-env-settings
