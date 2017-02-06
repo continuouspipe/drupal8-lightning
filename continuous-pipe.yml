@@ -13,7 +13,7 @@ tasks:
         deploy:
             cluster: ${CLUSTER}
             environment:
-                name: '"drupal7-" ~ code_reference.branch'
+                name: '"drupal7demo-" ~ code_reference.branch'
 
             services:
                 database:
