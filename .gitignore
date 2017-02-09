@@ -1,27 +1,38 @@
+# Composer lock file should be un-ignored once project is configured.
+composer.lock
+
 # Ignore binaries.
 /bin
 
 # Ignore non-custom parts of Drupal.
-/docroot/core
-/docroot/modules/contrib
-/docroot/profiles/contrib
-/docroot/themes/contrib
-/docroot/sites/default/files
+drush/contrib
+docroot/core
+docroot/modules/contrib
+docroot/themes/contrib
+docroot/profiles/contrib
+docroot/sites/*/files
+docroot/sites/*/settings.local.php
 
 # Ignore Composer-managed dependencies.
 /vendor/
 /auth.json
-/docroot/*
-/composer.lock
-
-# Don't ignore site settings
-!/docroot/sites/
-/docroot/sites/*
-!/docroot/sites/*/
-/docroot/sites/*/*
-!/docroot/sites/*/settings.env.php
-!/docroot/sites/*/settings.global.php
-!/docroot/sites/*/settings.php
 
 # Ignore remote ContinuousPipe config
 .cp-remote-env-settings
+
+# IDE directories
+.idea
+.vscode
+
+# Logs and databases
+*.log
+!/database/initial-commit.sql
+/*.sql
+
+# OS generated files
+.DS_Store*
+ehthumbs.db
+Icon
+Thumbs.db
+._*
+.~lock*
