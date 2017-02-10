@@ -4,17 +4,19 @@ variables:
     expression: code_reference.branch
 
 tasks:
-  images:
-    build:
-      environment:
-        - name: GITHUB_TOKEN
-          value: ${GITHUB_TOKEN}
+  deploy:
+    images:
+      build:
+        environment:
+          - name: GITHUB_TOKEN
+            value: ${GITHUB_TOKEN}
 
-      services:
-        web:
-          image: quay.io/inviqa_images/drupal8-lightning
+        services:
+          web:
+            image: quay.io/inviqa_images/drupal8-lightning
 
-    db_deployment:
+  db_deployment:
+    deploy:
       cluster: ${CLUSTER}
       environment:
         name: '"drupal8-lightning-" ~ code_reference.branch'
@@ -53,7 +55,8 @@ tasks:
               - name: MYSQL_PASSWORD
                 value: ${DRUPAL_DATABASE_PASSWORD}
 
-    web_deployment:
+  web_deployment:
+    deploy:
       cluster: ${CLUSTER}
       environment:
         name: '"drupal8-lightning-" ~ code_reference.branch'
@@ -102,7 +105,8 @@ tasks:
                 type: tcp
                 port: 80
 
-    solr_deployment:
+  solr_deployment:
+    deploy:
       cluster: ${CLUSTER}
       environment:
         name: '"drupal8-lightning-" ~ code_reference.branch'
