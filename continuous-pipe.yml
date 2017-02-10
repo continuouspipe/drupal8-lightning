@@ -1,149 +1,160 @@
+# Set default/global variables.
 variables:
-    - name: CP_ENVIRONMENT
-      value: production
-      condition: 'code_reference.branch in ["master", "staging", "release"]'
-    - name: CP_ENVIRONMENT
-      value: staging
-      condition: 'code_reference.branch == "staging" or "cp enabled" in pull_request.labels'
-    - name: CP_ENVIRONMENT
-      value: development
-      condition: 'code_reference.branch == "develop" or code_reference.branch matches "/^cpdev/"'
+  - name: CP_ENVIRONMENT
+    expression: code_reference.branch
 
 tasks:
-    images:
-        build:
-            environment:
-                - name: GITHUB_TOKEN
-                  value: ${GITHUB_TOKEN}
+  images:
+    build:
+      environment:
+        - name: GITHUB_TOKEN
+         value: ${GITHUB_TOKEN}
 
-            services:
-                web:
-                    image: quay.io/inviqa_images/drupal8-lightning
+      services:
+        web:
+          image: quay.io/inviqa_images/drupal8-lightning
 
-    deployment:
-        deploy:
-            cluster: ${CLUSTER}
+  db_deployment:
+    cluster: ${CLUSTER}
+    environment:
+      name: '"drupal8-lightning-" ~ code_reference.branch'
+    services:
+      database:
+        specification:
+          volumes:
+            - type: persistent
+              name: database-volume
+              capacity: 5Gi
+              storage_class: default
+            volume_mounts:
+              - name: database-volume
+               mount_path: /var/lib/mysql
+            command:
+              - /usr/local/bin/docker-entrypoint.sh
+              - mysqld
+              - --ignore-db-dir=lost+found
+              - --max_allowed_packet=128M
+            resources:
+              requests:
+                cpu: 50m
+                memory: 250Mi
+              limits:
+                cpu: 500m
+                memory: 2Gi
+            deployment_strategy:
+                readiness_probe:
+                type: tcp
+                port: 3306
+            environment_variables:
+              - name: MYSQL_ROOT_PASSWORD
+                value: ${DATABASE_ROOT_PASSWORD}
+              - name: MYSQL_USER
+                value: ${DRUPAL_DATABASE_USERNAME}
+              - name: MYSQL_PASSWORD
+                value: ${DRUPAL_DATABASE_PASSWORD}
 
-            services:
-                database:
-                    specification:
-                        volumes:
-                            - type: persistent
-                              name: database-volume
-                              capacity: 5Gi
-                              storage_class: default
+  web_deployment:
+    cluster: ${CLUSTER}
+    environment:
+      name: '"drupal8-lightning-" ~ code_reference.branch'
+    services:
+      web:
+        specification:
+          environment_variables:
+            - name: GITHUB_TOKEN
+              value: ${GITHUB_TOKEN}
+            - name: DRUPAL_DATABASE_NAME
+              value: ${DRUPAL_DATABASE_NAME}
+            - name: DRUPAL_DATABASE_USERNAME
+              value: ${DRUPAL_DATABASE_USERNAME}
+            - name: DRUPAL_DATABASE_PASSWORD
+              value: ${DRUPAL_DATABASE_PASSWORD}
+            - name: DRUPAL_DATABASE_PREFIX
+              value: ${DRUPAL_DATABASE_PREFIX}
+            - name: DRUPAL_DATABASE_HOST
+              value: ${DRUPAL_DATABASE_HOST}
+            - name: DRUPAL_DATABASE_PORT
+              value: ${DRUPAL_DATABASE_PORT}
+            - name: CP_ENVIRONMENT
+              value: ${CP_ENVIRONMENT}
+          ports:
+            - 80
+          resources:
+            requests:
+              cpu: 50m
+              memory: 500Mi
+          limits:
+            cpu: 1
+            memory: 2G
+      varnish:
+        endpoints:
+          -
+            name: http
+        specification:
+          ports:
+            - 80
+          resources:
+            limits:
+              cpu: 50m
+              memory: 500Mi
+          deployment_strategy:
+            readiness_probe:
+              type: tcp
+              port: 80
 
-                        volume_mounts:
-                            - name: database-volume
-                              mount_path: /var/lib/mysql
-
-                        command:
-                            - /usr/local/bin/docker-entrypoint.sh
-                            - mysqld
-                            - --ignore-db-dir=lost+found
-                            - --max_allowed_packet=128M
-
-                        ports:
-                            - 3306
-
-                        resources:
-                            requests:
-                                cpu: 50m
-                                memory: 250Mi
-
-                            limits:
-                                cpu: 500m
-                                memory: 2Gi
-
-                    deployment_strategy:
-                        readiness_probe:
-                            type: tcp
-                            port: 3306
-
-                varnish:
-                    endpoints:
-                        -
-                            name: http
-
-                    specification:
-                        ports:
-                            - 80
-
-                        resources:
-                            limits:
-                                cpu: 50m
-                                memory: 500Mi
-
-                    deployment_strategy:
-                        readiness_probe:
-                            type: tcp
-                            port: 80
-
-                web:
-                    specification:
-                        environment_variables:
-                            - name: GITHUB_TOKEN
-                              value: ${GITHUB_TOKEN}
-                            - name: APP_USER_LOCAL
-                              value: false
-                            - name: DRUPAL_HASH_SALT
-                              value: ${DRUPAL_HASH_SALT}
-                            - name: DRUPAL_DATABASE_NAME
-                              value: ${DRUPAL_DATABASE_NAME}
-                            - name: DRUPAL_DATABASE_USERNAME
-                              value: ${DRUPAL_DATABASE_USERNAME}
-                            - name: DRUPAL_DATABASE_PASSWORD
-                              value: ${DRUPAL_DATABASE_PASSWORD}
-                            - name: DRUPAL_DATABASE_PREFIX
-                              value: ${DRUPAL_DATABASE_PREFIX}
-                            - name: DRUPAL_DATABASE_HOST
-                              value: ${DRUPAL_DATABASE_HOST}
-                            - name: DRUPAL_DATABASE_PORT
-                              value: ${DRUPAL_DATABASE_PORT}
-                            - name: DRUPAL_CONFIG_DIRECTORY_SECRET
-                              value: ${DRUPAL_CONFIG_DIRECTORY_SECRET}
-
-                        ports:
-                            - 80
-
-                        resources:
-                            requests:
-                                cpu: 50m
-                                memory: 500Mi
-
-                            limits:
-                                cpu: 1
-                                memory: 2G
+  solr_deployment:
+    cluster: ${CLUSTER}
+    environment:
+      name: '"drupal8-lightning-" ~ code_reference.branch'
+    services:
+      solr:
+        specification:
+          volumes:
+            - type: persistent
+              name: solr-volume
+              capacity: 5Gi
+              storage_class: default
+          volume_mounts:
+              - name: solr-volume
+                mount_path: /usr/local/share/solr/drupal/data/
+          ports:
+            - 8983
+          resources:
+            requests:
+              cpu: 50m
+              memory: 250Mi
+            limits:
+              cpu: 500m
+              memory: 500Mi
+          deployment_strategy:
+            readiness_probe:
+              type: tcp
+              port: 8983
 
 
-                    deployment_strategy:
-                        readiness_probe:
-                            type: tcp
-                            port: 80
+pipelines:
+  - name: Remote Dev
+    condition: 'code_reference.branch matches "/^cpdev/"'
+    tasks:
+      - images
+      - db_deployment
+      - solr_deployment
+      - web_deployment
+    variables:
+      - name: CP_ENVIRONMENT
+        value: development
 
-                solr:
-                    specification:
-                        volumes:
-                            - type: persistent
-                              name: solr-volume
-                              capacity: 5Gi
-                              storage_class: default
-                        volume_mounts:
-                            - name: solr-volume
-                              mount_path: /usr/local/share/solr/d8/data/
+  - name: Review Branches
+    condition: '"cp enabled" in pull_request.labels'
+    tasks: &review_tasks
+      - images
+      - db_deployment
+      - solr_deployment
+      - web_deployment
+    variables:
+      - name: CP_ENVIRONMENT
+        value: staging
 
-                        ports:
-                            - 8983
-
-                        resources:
-                            requests:
-                                cpu: 50m
-                                memory: 250Mi
-                            limits:
-                                cpu: 500m
-                                memory: 500Mi
-
-                    deployment_strategy:
-                        readiness_probe:
-                            type: tcp
-                            port: 8983
+  - name: UAT
+    condition: 'code_reference.branch in ["staging", "release"]'
+    tasks: *review_tasks
