@@ -1,3 +1,14 @@
+variables:
+    - name: CP_ENVIRONMENT
+      value: production
+      condition: 'code_reference.branch in ["master", "staging", "release"]'
+    - name: CP_ENVIRONMENT
+      value: staging
+      condition: 'code_reference.branch == "staging" or "cp enabled" in pull_request.labels'
+    - name: CP_ENVIRONMENT
+      value: development
+      condition: 'code_reference.branch == "develop" or code_reference.branch matches "/^cpdev/"'
+
 tasks:
     images:
         build:
