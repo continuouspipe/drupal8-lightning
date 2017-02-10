@@ -53,7 +53,7 @@ tasks:
           deployment_strategy:
               readiness_probe:
                  type: tcp
-                port: 3306
+                 port: 3306
 
   web_deployment:
     deploy:
