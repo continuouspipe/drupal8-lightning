@@ -151,10 +151,11 @@ pipelines:
       - db_deployment
       - solr_deployment
       - web_deployment
-    variables:
+    variables: &review_variables
       - name: CP_ENVIRONMENT
         value: staging
 
   - name: UAT
     condition: 'code_reference.branch in ["staging", "release"]'
     tasks: *review_tasks
+    variables: *review_variables
