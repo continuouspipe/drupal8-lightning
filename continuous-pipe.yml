@@ -138,7 +138,7 @@ tasks:
 
 pipelines:
   - name: Remote Dev
-    condition: 'code_reference.branch matches "/^cpdev/"'
+    condition: 'code_reference.branch matches "/^cpdev/" or code_reference.branch == "feature/enhance-cp-config"'
     tasks:
       - images
       - db_deployment
