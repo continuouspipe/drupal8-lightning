@@ -755,6 +755,7 @@ $settings_subdir = __DIR__ . '/settings';
 $settings_files = [
   'settings.global.php',
   'settings.continuouspipe.php',
+  'settings.acquia.php',
   'settings.local.php',
 ];
 
