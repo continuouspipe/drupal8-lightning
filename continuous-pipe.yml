@@ -63,6 +63,14 @@ tasks:
       services:
         web:
           specification:
+            volumes:
+              - type: persistent
+                name: web-public-files-volume
+                capacity: 5Gi
+                storage_class: default
+            volume_mounts:
+              - name: web-public-files-volume
+                mount_path: /app/docroot/sites/default/files
             environment_variables:
               - name: GITHUB_TOKEN
                 value: ${GITHUB_TOKEN}
