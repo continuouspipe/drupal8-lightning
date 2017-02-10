@@ -3,7 +3,7 @@
 /**
  * @file
  *
- * Settings that are specific for continuous pipe.
+ * Settings that are specific for Continuous Pipe.
  *
  * This file just includes the global settings file, and any settings files
  * that exist based on the current environment. This environment variable is
