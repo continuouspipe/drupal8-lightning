@@ -19,6 +19,8 @@ docroot/sites/*/settings.local.php
 
 # Ignore remote ContinuousPipe config
 .cp-remote-env-settings
+.cp-remote-env-settings.yml
+cp-remote-logs*
 
 # IDE directories
 .idea
