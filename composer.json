@@ -65,6 +65,11 @@
                 "type:drupal-drush"
             ]
         },
-        "enable-patching": true
+        "enable-patching": true,
+        "patches": {
+            "drupal/core": {
+                "Redirect to install.php on empty DB": "https://www.drupal.org/files/issues/728702-163.patch"
+            }
+        }
     }
 }
