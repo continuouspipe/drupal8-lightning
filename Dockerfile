@@ -12,8 +12,7 @@ USER root
 
 RUN mkdir -p /app/docroot/sites/default/files/ \
  && chown -R build:build /app \
- && cp -R /app/tools/docker/usr/* /usr \
- && chmod ug+w /app/docroot/sites/default/settings.php
+ && cp -R /app/tools/docker/usr/* /usr
 
 # Install dependencies
 ARG GITHUB_TOKEN=
