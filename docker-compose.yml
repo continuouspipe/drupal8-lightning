@@ -7,6 +7,7 @@ services:
         - GITHUB_TOKEN
         - CODE_OWNER=build
         - CODE_GROUP=build
+        - APP_USER=www-data
         - APP_GROUP=www-data
     volumes:
       - .:/app
@@ -20,10 +21,8 @@ services:
       - DRUPAL_DATABASE_NAME=drupaldb
       - DRUPAL_DATABASE_USERNAME=drupal
       - DRUPAL_DATABASE_PASSWORD=drupal
-      - DRUPAL_DATABASE_PREFIX=
       - DRUPAL_DATABASE_HOST=database
       - DRUPAL_DATABASE_PORT=3306
-      - DRUPAL_CONFIG_DIRECTORY_SECRET=sosecret
 
   varnish:
     image: quay.io/continuouspipe/varnish4:v1.0

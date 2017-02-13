@@ -50,6 +50,8 @@ tasks:
                 value: ${DRUPAL_DATABASE_USERNAME}
               - name: MYSQL_PASSWORD
                 value: ${DRUPAL_DATABASE_PASSWORD}
+              - name: MYSQL_DATABASE
+                value: ${DRUPAL_DATABASE_NAME}
           deployment_strategy:
               readiness_probe:
                  type: tcp
