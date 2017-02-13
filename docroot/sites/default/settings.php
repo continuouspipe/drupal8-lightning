@@ -760,7 +760,7 @@ $settings_files = [
 ];
 
 foreach ($settings_files as $settings_file) {
-  if (file_exists($settings_subdir . '/settings.global.php')) {
-    include $settings_subdir . '/settings.global.php';
+  if (file_exists($settings_subdir . '/' . $settings_file)) {
+    include $settings_subdir . '/' . $settings_file;
   }
 }
