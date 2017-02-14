@@ -1,4 +1,4 @@
-FROM drupal8:test
+FROM quay.io/continuouspipe/drupal8-apache-php7:dev
 
 MAINTAINER "Kieren Evans <kieren.evans+drupal8-docker@inviqa.com>"
 
