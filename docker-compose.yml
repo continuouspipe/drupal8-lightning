@@ -24,6 +24,9 @@ services:
       - DRUPAL_DATABASE_HOST=database
       - DRUPAL_DATABASE_PORT=3306
       - DEVELOPMENT_MODE=1
+    expose:
+      - 80
+      - 443
 
   varnish:
     image: quay.io/continuouspipe/varnish4:v1.0
@@ -34,6 +37,8 @@ services:
     image: quay.io/continuouspipe/drupal8-solr4:v1.0
     volumes:
       - solr_data:/usr/local/share/solr/d8/data/
+    expose:
+      - 8983
 
   database:
     image: quay.io/continuouspipe/mysql5.6:v1.0
@@ -42,6 +47,8 @@ services:
       MYSQL_DATABASE: drupaldb
       MYSQL_USER: drupal
       MYSQL_PASSWORD: drupal
+    expose:
+      - 3306
 
 volumes:
   solr_data:
