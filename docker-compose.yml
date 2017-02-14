@@ -16,7 +16,8 @@ services:
       - database
     environment:
       - GITHUB_TOKEN
-      - APP_USER_LOCAL=true
+      - WEB_HTTP=true
+      - WEB_HTTPS=false
       - DRUPAL_HASH_SALT=sosecret
       - DRUPAL_DATABASE_NAME=drupaldb
       - DRUPAL_DATABASE_USERNAME=drupal

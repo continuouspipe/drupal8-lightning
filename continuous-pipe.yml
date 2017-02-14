@@ -92,7 +92,6 @@ tasks:
                 value: ${CP_ENVIRONMENT}
             ports:
               - 80
-              - 443
             resources:
               requests:
                 cpu: 50m
@@ -103,11 +102,10 @@ tasks:
         varnish:
           endpoints:
             -
-              name: https
+              name: http
           specification:
             ports:
               - 80
-              - 443
             resources:
               limits:
                 cpu: 50m

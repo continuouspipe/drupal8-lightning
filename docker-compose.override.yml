@@ -3,9 +3,6 @@ services:
   web:
     volumes:
       - /app
-    environment:
-      - WEB_HTTP=true
-      - WEB_HTTPS=false
     expose:
       - 80
   database:
