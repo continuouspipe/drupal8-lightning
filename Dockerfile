@@ -1,20 +1,13 @@
-FROM quay.io/continuouspipe/drupal8-apache-php7:stable
+FROM drupal8:test
 
 MAINTAINER "Kieren Evans <kieren.evans+drupal8-docker@inviqa.com>"
-
-USER build
 
 # Add the application
 COPY . /app
 WORKDIR /app
 
-USER root
+COPY ./tools/docker/usr/ /usr
 
-RUN mkdir -p /app/docroot/sites/default/files/ \
- && chown -R build:build /app \
- && cp -R /app/tools/docker/usr/* /usr
-
-# Install dependencies
 ARG GITHUB_TOKEN=
 ARG CODE_OWNER=build
 ARG CODE_GROUP=build
