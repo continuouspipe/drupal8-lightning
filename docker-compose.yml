@@ -23,6 +23,7 @@ services:
       - DRUPAL_DATABASE_PASSWORD=drupal
       - DRUPAL_DATABASE_HOST=database
       - DRUPAL_DATABASE_PORT=3306
+      - DEVELOPMENT_MODE=1
 
   varnish:
     image: quay.io/continuouspipe/varnish4:v1.0
