@@ -10,11 +10,7 @@
  * defined in the continuous-pipe.yml settings file in the repository root.
  */
 
-$cp_environment = FALSE;
-
-if (isset($_ENV['CP_ENVIRONMENT'])) {
-  $cp_environment = $_ENV['CP_ENVIRONMENT'];
-}
+$cp_environment = getenv('CP_ENVIRONMENT');
 
 // If we don't have a CP environment, then just leave.
 if ($cp_environment === FALSE) {
