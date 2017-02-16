@@ -1,6 +1,9 @@
 # Composer lock file should be un-ignored once project is configured.
 composer.lock
 
+# Node files
+node_modules
+
 # Ignore binaries.
 /bin
 
