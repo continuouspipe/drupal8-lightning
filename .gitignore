@@ -14,7 +14,7 @@ docroot/modules/contrib
 docroot/themes/contrib
 docroot/profiles/contrib
 docroot/sites/*/files
-docroot/sites/*/settings.local.php
+settings.local.php
 
 # Ignore Composer-managed dependencies.
 /vendor/
