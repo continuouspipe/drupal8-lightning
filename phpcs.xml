@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<ruleset name="WorldPay">
+
+    <description>Coding standard configuration.</description>
+
+    <file>docroot/modules/custom</file>
+    <file>docroot/themes/custom</file>
+
+    <exclude-pattern>*/node_modules/*</exclude-pattern>
+
+    <arg name="extensions" value="php,inc,module,install,yml"/>
+
+    <rule ref="./vendor/drupal/coder/coder_sniffer/Drupal">
+        <exclude name="Drupal.NamingConventions.ValidVariableName"/>
+        <exclude name="Drupal.InfoFiles.AutoAddedKeys.Version"/>
+        <exclude name="Drupal.InfoFiles.AutoAddedKeys.Project"/>
+        <exclude name="Drupal.Classes.UnusedUseStatement.UnusedUse"/>
+        <exclude name="Drupal.Commenting.DocComment.MissingShort"/>
+    </rule>
+
+</ruleset>
