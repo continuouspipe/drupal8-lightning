@@ -3,14 +3,18 @@ services:
   web:
     volumes:
       - /app
+      - /app/docroot/sites/default/files
     expose:
       - 80
+
   database:
     ports:
       - "3307:3306"
+
   varnish:
     ports:
       - "8080:80"
+
   solr:
     ports:
       - "8984:8983"
@@ -25,3 +29,4 @@ services:
       - SYNC_DESTINATION=/app
       - SYNC_MAX_INOTIFY_WATCHES=40000
       - SYNC_VERBOSE=1
+    privileged: true
