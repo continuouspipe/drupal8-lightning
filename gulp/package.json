@@ -1,0 +1,15 @@
+{
+  "name": "drupal8-lightning",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Matt Chapman <chapabu101@gmail.com> (https://github.com/Chapabu)",
+  "license": "ISC",
+  "dependencies": {
+    "deck-task-registry": "^1.0.1"
+  }
+}
