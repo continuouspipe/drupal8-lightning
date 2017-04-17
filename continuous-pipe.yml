@@ -1,7 +1,36 @@
-# Set default/global variables.
+defaults:
+  cluster: ${CLUSTER}
+  environment:
+    name: '"drupal8-lightning-" ~ code_reference.branch'
+
 variables:
   - name: CP_ENVIRONMENT
     expression: code_reference.branch
+
+pipelines:
+  - name: Remote Dev
+    condition: 'code_reference.branch matches "#^cpdev/#"'
+    tasks: &default_tasks
+      - images
+      - db_deployment
+      - solr_deployment
+      - setup
+      - web_deployment
+    variables:
+      - name: CP_ENVIRONMENT
+        value: development
+
+  - name: Review Branches
+    condition: '"cp enabled" in pull_request.labels'
+    tasks: *default_tasks
+    variables: &review_variables
+      - name: CP_ENVIRONMENT
+        value: staging
+
+  - name: UAT
+    condition: 'code_reference.branch in ["staging", "release"]'
+    tasks: *review_tasks
+    variables: *review_variables
 
 tasks:
   images:
@@ -15,9 +44,6 @@ tasks:
 
   db_deployment:
     deploy:
-      cluster: ${CLUSTER}
-      environment:
-        name: '"drupal8-lightning-" ~ code_reference.branch'
       services:
         database:
           specification:
@@ -47,11 +73,11 @@ tasks:
               - name: MYSQL_ROOT_PASSWORD
                 value: ${DATABASE_ROOT_PASSWORD}
               - name: MYSQL_USER
-                value: ${DRUPAL_DATABASE_USERNAME}
+                value: ${DATABASE_USER}
               - name: MYSQL_PASSWORD
-                value: ${DRUPAL_DATABASE_PASSWORD}
+                value: ${DATABASE_PASSWORD}
               - name: MYSQL_DATABASE
-                value: ${DRUPAL_DATABASE_NAME}
+                value: ${DATABASE_NAME}
           deployment_strategy:
               readiness_probe:
                  type: tcp
@@ -59,10 +85,72 @@ tasks:
 
   web_deployment:
     deploy:
-      cluster: ${CLUSTER}
-      environment:
-        name: '"drupal8-lightning-" ~ code_reference.branch'
       services:
+        proxy:
+          endpoints:
+            -
+              name: proxy
+              cloud_flare_zone:
+                zone_identifier: ${CLOUD_FLARE_ZONE}
+                authentication:
+                  email: ${CLOUD_FLARE_EMAIL}
+                  api_key: ${CLOUD_FLARE_API_KEY}
+                proxied: true
+                record_suffix: '-drupal8-lightning.webpipeline.net'
+              ingress:
+                class: nginx
+                host_suffix: '-drupal8-lightning.webpipeline.net'
+
+          specification:
+            environment_variables:
+              - name: AUTH_HTTP_ENABLED
+                value: true
+              - name: AUTH_HTTP_HTPASSWD
+                value: ${AUTH_HTTP_HTPASSWD}
+              - name: AUTH_IP_WHITELIST_ENABLED
+                value: true
+              - name: AUTH_IP_WHITELIST
+                value: ${AUTH_IP_WHITELIST}
+              - name: TRUSTED_REVERSE_PROXIES
+                value: ${TRUSTED_REVERSE_PROXIES}
+              - name: WEB_REVERSE_PROXIED
+                value: "true"
+              - name: WEB_HTTPS_ONLY
+                value: "false"
+
+            ports:
+              - 80
+              - 443
+
+            resources:
+              requests:
+                cpu: 50m
+                memory: 50Mi
+
+              limits:
+                cpu: 1
+                memory: 200Mi
+
+          deployment_strategy:
+            readiness_probe:
+              type: tcp
+              port: 80
+
+            liveness_probe:
+              type: exec
+              command:
+                - curl
+                - -k
+                - -I
+                - -X GET
+                - -H
+                - "User-Agent: ContinuousPipe-HealthCheck v1.0"
+                - https://localhost/
+              initial_delay_seconds: 30
+              period_seconds: 30
+              success_threshold: 1
+              failure_threshold: 10
+
         web:
           specification:
             volumes:
@@ -74,22 +162,24 @@ tasks:
               - name: web-public-files-volume
                 mount_path: /app/docroot/sites/default/files
             environment_variables:
-              - name: GITHUB_TOKEN
-                value: ${GITHUB_TOKEN}
-              - name: DRUPAL_DATABASE_NAME
-                value: ${DRUPAL_DATABASE_NAME}
-              - name: DRUPAL_DATABASE_USERNAME
-                value: ${DRUPAL_DATABASE_USERNAME}
-              - name: DRUPAL_DATABASE_PASSWORD
-                value: ${DRUPAL_DATABASE_PASSWORD}
-              - name: DRUPAL_DATABASE_PREFIX
-                value: ${DRUPAL_DATABASE_PREFIX}
-              - name: DRUPAL_DATABASE_HOST
-                value: ${DRUPAL_DATABASE_HOST}
-              - name: DRUPAL_DATABASE_PORT
-                value: ${DRUPAL_DATABASE_PORT}
+              - name: DATABASE_NAME
+                value: ${DATABASE_NAME}
+              - name: DATABASE_USER
+                value: ${DATABASE_USER}
+              - name: DATABASE_PASSWORD
+                value: ${DATABASE_PASSWORD}
               - name: CP_ENVIRONMENT
                 value: ${CP_ENVIRONMENT}
+              - name: INSTALL_DRUPAL
+                value: ${INSTALL_DRUPAL}
+              - name: DRUPAL_ADMIN_USERNAME
+                value: ${DRUPAL_ADMIN_USERNAME}
+              - name: DRUPAL_ADMIN_PASSWORD
+                value: ${DRUPAL_ADMIN_PASSWORD}
+              - name: DRUPAL_HASH_SALT
+                value: ${DRUPAL_HASH_SALT}
+              - name: DEVELOPMENT_MODE
+                value: ${DEVELOPMENT_MODE}
             ports:
               - 80
             resources:
@@ -99,17 +189,15 @@ tasks:
               limits:
                 cpu: 1
                 memory: 2G
+
         varnish:
-          endpoints:
-            -
-              name: http
           specification:
             ports:
               - 80
             resources:
               limits:
                 cpu: 50m
-                memory: 500Mi
+                memory: 1Gi # Varnish is set to malloc,1g
           deployment_strategy:
             readiness_probe:
               type: tcp
@@ -117,9 +205,6 @@ tasks:
 
   solr_deployment:
     deploy:
-      cluster: ${CLUSTER}
-      environment:
-        name: '"drupal8-lightning-" ~ code_reference.branch'
       services:
         solr:
           specification:
@@ -130,7 +215,7 @@ tasks:
                 storage_class: default
             volume_mounts:
                 - name: solr-volume
-                  mount_path: /usr/local/share/solr/drupal/data/
+                  mount_path: /usr/local/share/solr/d8/data/
             ports:
               - 8983
             resources:
@@ -145,31 +230,10 @@ tasks:
               type: tcp
               port: 8983
 
-
-pipelines:
-  - name: Remote Dev
-    condition: 'code_reference.branch matches "/^cpdev/" or code_reference.branch == "feature/enhance-cp-config"'
-    tasks:
-      - images
-      - db_deployment
-      - solr_deployment
-      - web_deployment
-    variables:
-      - name: CP_ENVIRONMENT
-        value: development
-
-  - name: Review Branches
-    condition: '"cp enabled" in pull_request.labels'
-    tasks: &review_tasks
-      - images
-      - db_deployment
-      - solr_deployment
-      - web_deployment
-    variables: &review_variables
-      - name: CP_ENVIRONMENT
-        value: staging
-
-  - name: UAT
-    condition: 'code_reference.branch in ["staging", "release"]'
-    tasks: *review_tasks
-    variables: *review_variables
+  setup:
+    run:
+      image:
+        from_service: web
+      commands:
+        - container setup
+      environment_variables: *default_web_variables
