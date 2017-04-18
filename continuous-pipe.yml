@@ -29,7 +29,7 @@ pipelines:
 
   - name: UAT
     condition: 'code_reference.branch in ["staging", "release"]'
-    tasks: *review_tasks
+    tasks: *default_tasks
     variables: *review_variables
 
 tasks:
