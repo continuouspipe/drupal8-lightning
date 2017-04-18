@@ -161,7 +161,7 @@ tasks:
             volume_mounts:
               - name: web-public-files-volume
                 mount_path: /app/docroot/sites/default/files
-            environment_variables:
+            environment_variables: &default_web_variables
               - name: DATABASE_NAME
                 value: ${DATABASE_NAME}
               - name: DATABASE_USER
